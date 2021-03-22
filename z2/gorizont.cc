@@ -6,20 +6,20 @@
 #include <cassert>
 
 
-
+//структура TGA-файла
 #pragma pack(push, 1)
 struct TGA_Header
 {
-	uint8_t id_len;
-	uint8_t pal_type;
-	uint8_t img_type;
-	uint8_t pal_desc[5];
-	uint16_t x_pos;
-	uint16_t y_pos;
-	uint16_t width;
-	uint16_t height;
-	uint8_t depth;
-	uint8_t img_desc;
+	uint8_t id_len; //длина идентификатора
+	uint8_t pal_type; //тип палитры
+	uint8_t img_type;  //тип изобр
+	uint8_t pal_desc[5]; //описание палитры
+	uint16_t x_pos; //ось Х
+	uint16_t y_pos; //ось У
+	uint16_t width;  //ширина
+	uint16_t height; //высота
+	uint8_t depth;  //Глубина цвета
+	uint8_t img_desc; //Описываем изображение
 };
 #pragma pack(pop)
 
@@ -52,7 +52,7 @@ void pic(std::vector<uint32_t>& pixels, int x, int y, uint32_t c,std::vector<int
 int main()
 {
 
-	std::vector<uint32_t> picture(W * H);
+	std::vector<uint32_t> picture(W * H);  // тут график функции строим в буфере
 	for (auto && p : picture) p = 0xff601b6a;
 	int sx=0,sy=0;
 	double z;
@@ -97,9 +97,9 @@ int main()
 				}
 	std::cout.flush();
 
-	tga_file.open("output.tga",std::ios::out|std::ios::binary);
+	tga_file.open("output.tga",std::ios::out|std::ios::binary); // открываем картинку
 
-	tga_file.write(reinterpret_cast<char*>(&hdr),sizeof(TGA_Header));
+	tga_file.write(reinterpret_cast<char*>(&hdr),sizeof(TGA_Header));  //запись заголвка и данных картинки
 	tga_file.write(reinterpret_cast<char*>(&k[0]),W*H*4);
 
 	tga_file.close();
